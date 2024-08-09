@@ -6,7 +6,7 @@ The reason brainfuck is chosen is because it is a relatively simple language and
 
 # Building
 ```
-$ c++ main.cpp -O3 -o bf
+$ c++ main.cpp -O3 -std=c++20 -o bf
 ```
 
 # Usage

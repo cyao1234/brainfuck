@@ -22,14 +22,139 @@ uint64_t DP = 0;
 uint64_t PP = 0;
 
 std::unordered_map<uint64_t, char> memory;
+std::string code;
+
+int processChar(char c) {
+	uint64_t loop = 0;
+
+	switch (c) {
+		case '>':
+			if (DP == UINT64_MAX) {
+				std::cerr << "Data pointer overflow" << std::endl;
+
+				return 1;
+			}
+
+			++DP;
+
+			break;
+		case '<':
+			[[unlikely]] if (DP == 0) {
+				std::cerr << "Data pointer underflow" << std::endl;
+
+				return 1;
+			}
+
+			--DP;
+
+			break;
+		case '+':
+			[[unlikely]] if (memory[DP] == UINT64_MAX) {
+				std::cerr << "Memory overflow" << std::endl;
+
+				return 1;
+			}
+
+			++memory[DP];
+
+			break;
+		case '-':
+			if (memory[DP] == 0) {
+				std::cerr << "Memory underflow" << std::endl;
+
+				return 1;
+			}
+
+			--memory[DP];
+
+			break;
+		case '.':
+			std::cout << memory[DP];
+
+			break;
+		case ',':
+			std::cin >> memory[DP];
+
+			break;
+		case '[':
+			if (memory[DP] != 0) {
+				break;
+			}
+
+			++PP;
+			while (PP < code.size()) {
+				if (loop == 0 && code[PP] == ']') {
+					break;
+				}
+
+				if (code[PP] == '[') {
+					++loop;
+				}
+
+				if (code[PP] == ']') {
+					--loop;
+				}
+
+				if (PP == UINT64_MAX) {
+					std::cerr << "Program pointer overflow" << std::endl;
+
+					return 1;
+				}
+
+				if (PP >= code.size()) {
+					std::cerr << "PP overflow" << std::endl;
+
+					return 1;
+				}
+
+				++PP;
+			}
+
+			break;
+		case ']':
+			if (memory[DP] == 0) {
+				break;
+			}
+
+			--PP;
+			while (PP < code.size()) {
+				if (loop == 0 && code[PP] == '[') {
+					break;
+				}
+
+				if (code[PP] == ']') {
+					++loop;
+				}
+
+				if (code[PP] == '[') {
+					--loop;
+				}
+
+				if (PP == 0) {
+					std::cerr << "Program pointer underflow" << std::endl;
+
+					return 1;
+				}
+
+				--PP;
+			}
+
+			break;
+
+		default:
+			break;
+	}
+
+	return 0;
+}
 
 int main(int argc, char** argv) {
 	if (argc < 2) {
 		std::cout << "Usage:\n";
 		std::cout << argv[0] << " [filename]" << std::endl;
-	}
 
-	std::string code;
+		return 1;
+	}
 
 	{
 		std::ifstream file(argv[1]);
@@ -44,84 +169,13 @@ int main(int argc, char** argv) {
 		code = buffer.str();
 	}
 
-	char ch;
-
 	while (PP < code.size()) {
-		switch (code[PP]) {
-			case '>':
-				if (DP == UINT64_MAX) {
-					std::cerr << "Data pointer overflow" << std::endl;
-					return 1;
-				}
-
-				++DP;
-
-				break;
-			case '<':
-				[[unlikely]] if (DP == 0) {
-					std::cerr << "Data pointer underflow" << std::endl;
-					return 1;
-				}
-
-				--DP;
-
-				break;
-			case '+':
-				if (!memory.contains(DP)) {
-					memory[DP] = 1;
-				}
-
-				[[unlikely]] if (memory.at(DP) == UINT64_MAX) {
-					std::cerr << "Memory overflow" << std::endl;
-					return 1;
-				}
-
-				++memory.at(DP);
-
-				break;
-			case '-':
-				if (!memory.contains(DP) || memory.at(DP) == 0) {
-					std::cerr << "Memory underflow" << std::endl;
-					return 1;
-				}
-
-				--memory.at(DP);
-
-				break;
-			case '.':
-				if (!memory.contains(DP)) {
-					memory[DP] = 0;
-				}
-
-				std::cout << memory.at(DP);
-
-				break;
-			case ',':
-				std::cin >> memory[DP];
-
-				break;
-			case '[':
-				if (!memory.contains(DP)) {
-					memory[DP] = 0;
-				}
-
-				if (memory.at(DP) == 0) {
-				}
-
-				uint64_t loop = 0;
-
-				break;
-			case ']':
-				if (!memory.contains(DP)) {
-					memory[DP] = 0;
-				}
-
-				break;
-
-			default:
-				break;
+		if (processChar(code[PP]) != 0) {
+			return 1;
 		}
-		
+
 		++PP;
 	}
+
+	std::cout << "Program exited succesfully" << std::endl;
 }
