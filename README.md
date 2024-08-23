@@ -1,8 +1,10 @@
-# Cyao Brainf*ck interpreter
+# Cyao Brainfuck interpreter
 
-Welcome to the bf interpreter. This project aims to make a alternative executor for the [brainfuck](https://en.wikipedia.org/wiki/Brainfuck).
+Welcome to the bf interpreter. This project aims to make a alternative executor for the [brainfuck](https://en.wikipedia.org/wiki/Brainfuck) programming language.
 
-The reason brainfuck is chosen is because it is a relatively simple language and thus I can gain experience in programming language development (Start small, go big afterwards).
+Why brainfuck? This language is chosen is because it is a relatively simple language and thus I can gain experience in programming language development.
+
+This project has 0 dependencies on external libraries
 
 # Building
 ```
@@ -14,6 +16,9 @@ $ c++ main.cpp -O3 -std=c++20 -o bf
 $ ./bf [input file]
 ```
 
-# Plans
-Make a c to bf compiler
-Make a llvm frontend for bf
+# Example code 
+You can find example brainfuck probrams in the `examples` folder
+
+# TODO
+- [ ] Make a c to bf compiler
+- [ ] Make a llvm frontend for bf
