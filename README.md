@@ -1,7 +1,8 @@
-# Brainfuck interpreter
-
-#### Interpreter for the brainfuck programming language! Fuck up your brain with this difficult language! 
-#### +++++[>++++[>++>+++>+++>+<<<<-]>+>+>] (Translation: I'm Hard!)
+<h1 align="center">Brainfuck interpreter</h1>
+<h4 align="center">Interpreter for the brainfuck programming language! Fuck up your brain with this difficult language!</h4>
+<div align="center" >
+<img src="https://cloud-o8mpkdxx9-hack-club-bot.vercel.app/0screenshot_2024-08-23_at_5.01.43_pm.png">
+</div>
 
 ## Features
 - Single file!
@@ -21,4 +22,4 @@ $ ./bf [input file]
 ```
 
 # Example code 
-You can find example brainfuck probrams in the `examples` folder
+You can find example brainfuck programs in the `examples/` folder
